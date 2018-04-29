@@ -78,3 +78,7 @@ classifier.fit(train_features, train_labels)
 # Export the classifier to a file
 # joblib.dump(classifier, 'model.joblib')
 pickle.dump(classifier, open('model.pkl', 'wb'))
+
+# Generate 5 sample test data points
+with open('test_data.json', 'w') as outfile:
+  json.dump(test_features.as_matrix().tolist()[0:5], outfile)

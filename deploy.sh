@@ -17,7 +17,7 @@ if ! gsutil ls | grep -q gs://${BUCKET}/; then
 fi
 
 echo "INFO: Copying model binaries to bucket"
-# gsutil cp ./model.joblib gs://$BUCKET/model.joblib
+gsutil cp ./model.pkl gs://$BUCKET/model.pkl
 
 echo "INFO: Creating model resource (i.e. a container for all versions of this model)" 
 # gcloud beta ml-engine models create ${MODEL_NAME}  # note: this command is not idempotent. can only be run once
@@ -26,13 +26,13 @@ echo "INFO: Creating model resource (i.e. a container for all versions of this m
 echo "INFO: Deploying model to GCP ML Engine"
 
 DEPLOYMENT_SOURCE="gs://$BUCKET"
-VERSION_NAME="v2"
+VERSION_NAME="v4"
 FRAMEWORK="SCIKIT_LEARN"
 
 echo "INFO: Creating a version of the model"
 gcloud beta ml-engine versions create $VERSION_NAME \
     --model $MODEL_NAME --origin $DEPLOYMENT_SOURCE \
-    --runtime-version="1.5" --framework $FRAMEWORK
+    --runtime-version="1.5" --framework $FRAMEWORK \
     --python-version=3.5
 
 echo "INFO: Describe version"

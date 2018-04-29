@@ -76,4 +76,5 @@ classifier = RandomForestClassifier()
 classifier.fit(train_features, train_labels)
 
 # Export the classifier to a file
-joblib.dump(classifier, 'model.joblib')
+# joblib.dump(classifier, 'model.joblib')
+pickle.dump(classifier, open('model.pkl', 'wb'))

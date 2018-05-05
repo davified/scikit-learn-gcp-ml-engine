@@ -28,8 +28,19 @@ env:
 # - gcloud -q components update gae-python
 # # Install the Python dependencies
 # - pip install -r requirements.txt -t lib/
-script:
-- echo "running training job"
-- echo "running statistical test"
-- echo "running deploy job"
-- echo "running smoke test"
+jobs:
+  include:
+    - stage: train model
+      script: echo "initiate model training job"
+    - stage: run statistical tests
+      script: echo "initiate model statistical tests"
+    - stage: deploy model to staging
+      script: echo "initiate deploy-to-staging job"
+    - stage: staging smoke test
+      script: echo "running smoke test"
+    - stage: deploy model to production
+      if: branch = deploy-to-prod
+      script: echo "initiate deploy-to-prod job"
+    - stage: smoke test for production
+      if: branch = deploy-to-prod
+      script: echo "running smoke test"
